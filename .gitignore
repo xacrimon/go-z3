@@ -2,3 +2,5 @@
 .z3-trace
 
 /z3/z3.test
+/z3/z3.h
+/z3/libz3.a

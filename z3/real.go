@@ -11,7 +11,6 @@ import (
 )
 
 /*
-#cgo LDFLAGS: -lz3
 #include <z3.h>
 #include <stdlib.h>
 */

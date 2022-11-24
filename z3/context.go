@@ -12,7 +12,6 @@ import (
 )
 
 /*
-#cgo LDFLAGS: -lz3
 #include <z3.h>
 #include <stdlib.h>
 
@@ -124,11 +123,11 @@ func NewContext(config *Config) *Context {
 //
 // The following are commonly useful parameters:
 //
-//	timeout           uint    Timeout in milliseconds used for solvers (default: ∞)
-//	auto_config       bool    Use heuristics to automatically select solver and configure it (default: true)
-//	proof             bool    Enable proof generation (default: false)
-//	model             bool    Enable model generation for solvers by default (default: true)
-//      unsat_core        bool    Enable unsat core generation for solvers by default (default: false)
+//		timeout           uint    Timeout in milliseconds used for solvers (default: ∞)
+//		auto_config       bool    Use heuristics to automatically select solver and configure it (default: true)
+//		proof             bool    Enable proof generation (default: false)
+//		model             bool    Enable model generation for solvers by default (default: true)
+//	     unsat_core        bool    Enable unsat core generation for solvers by default (default: false)
 //
 // Most of these can be changed after a Context is created using
 // Context.Config().

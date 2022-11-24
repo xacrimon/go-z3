@@ -7,7 +7,6 @@ package z3
 import "runtime"
 
 /*
-#cgo LDFLAGS: -lz3
 #include <z3.h>
 #include <stdlib.h>
 */
