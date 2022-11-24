@@ -147,6 +147,16 @@ func (ctx *Context) FromInt(val int64, sort Sort) Value {
 	return sval.lift(sort.Kind())
 }
 
+func (ctx *Context) FromString(data string) String {
+	val := wrapValue(ctx, func() C.Z3_ast {
+		cstr := C.CString(data)
+		defer C.free(unsafe.Pointer(cstr))
+		return C.Z3_mk_string(ctx.c, cstr)
+	})
+
+	return String(val)
+}
+
 func (expr *valueImpl) impl() *valueImpl {
 	return expr
 }
