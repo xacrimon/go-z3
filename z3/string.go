@@ -11,3 +11,15 @@ package z3
 import "C"
 
 type String value
+
+func (ctx *Context) StringSort() Sort {
+	var sort Sort
+	ctx.do(func() {
+		sort = wrapSort(ctx, C.Z3_mk_string_sort(ctx.c), KindString)
+	})
+	return sort
+}
+
+func (ctx *Context) StringConst(name string) String {
+	return ctx.Const(name, ctx.StringSort()).(String)
+}

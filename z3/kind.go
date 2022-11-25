@@ -21,6 +21,7 @@ const (
 	KindUninterpreted = Kind(C.Z3_UNINTERPRETED_SORT)
 	KindBool          = Kind(C.Z3_BOOL_SORT)
 	KindInt           = Kind(C.Z3_INT_SORT)
+	KindString        = Kind(5000)
 	KindReal          = Kind(C.Z3_REAL_SORT)
 	KindBV            = Kind(C.Z3_BV_SORT)
 	KindArray         = Kind(C.Z3_ARRAY_SORT)
