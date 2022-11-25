@@ -13,6 +13,12 @@ import "runtime"
 
 type String value
 
+func init() {
+	kindWrappers[KindString] = func(x value) Value {
+		return String(x)
+	}
+}
+
 func (ctx *Context) StringSort() Sort {
 	var sort Sort
 	ctx.do(func() {
