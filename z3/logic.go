@@ -22,6 +22,14 @@ func init() {
 	}
 }
 
+func (ctx *Context) If(cond Bool, then, els AST) AST {
+	ast := wrapAST(ctx, C.Z3_mk_ite(ctx.c, cond.c, then.c, els.c))
+	runtime.KeepAlive(cond)
+	runtime.KeepAlive(then)
+	runtime.KeepAlive(els)
+	return ast
+}
+
 // BoolSort returns the boolean sort.
 func (ctx *Context) BoolSort() Sort {
 	var sort Sort

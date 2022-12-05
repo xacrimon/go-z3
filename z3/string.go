@@ -40,3 +40,66 @@ func (l String) Eq(r String) Bool {
 	runtime.KeepAlive(r)
 	return Bool(val)
 }
+
+func (l String) Replace(what, with String) Value {
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_replace(ctx.c, l.c, what.c, with.c)
+	})
+	runtime.KeepAlive(l)
+	runtime.KeepAlive(what)
+	runtime.KeepAlive(with)
+	return String(val)
+}
+
+func (l String) Length() Int {
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_length(ctx.c, l.c)
+	})
+	runtime.KeepAlive(l)
+	return Int(val)
+}
+
+func (l String) Concat(other ...String) String {
+	args := []C.Z3_ast{l.c}
+	for _, o := range other {
+		args = append(args, o.c)
+	}
+
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_concat(ctx.c, C.uint(len(args)), &args[0])
+	})
+	runtime.KeepAlive(l)
+	runtime.KeepAlive(args)
+	return String(val)
+}
+
+func (l String) Substring(offset, length Value) String {
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_extract(ctx.c, l.c, offset.impl().c, length.impl().c)
+	})
+	runtime.KeepAlive(l)
+	runtime.KeepAlive(offset)
+	runtime.KeepAlive(length)
+	return String(val)
+}
+
+func (l String) ToCode() Int {
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_string_to_code(ctx.c, l.c)
+	})
+	runtime.KeepAlive(l)
+	return Int(val)
+}
+
+func (ctx *Context) StringFromCode(c Int) String {
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_string_from_code(ctx.c, c.c)
+	})
+	runtime.KeepAlive(c)
+	return String(val)
+}

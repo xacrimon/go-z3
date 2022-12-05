@@ -70,6 +70,38 @@ func (ctx *Context) FuncDecl(name string, domain []Sort, range_ Sort) FuncDecl {
 	return funcdecl
 }
 
+func (ctx *Context) FuncDeclRec(name string, domain []Sort, range_ Sort) FuncDecl {
+	sym := ctx.symbol(name)
+	cdomain := make([]C.Z3_sort, len(domain))
+	for i, sort := range domain {
+		cdomain[i] = sort.c
+	}
+	var funcdecl FuncDecl
+	ctx.do(func() {
+		var cdp *C.Z3_sort
+		if len(cdomain) > 0 {
+			cdp = &cdomain[0]
+		}
+		funcdecl = wrapFuncDecl(ctx, C.Z3_mk_rec_func_decl(ctx.c, sym, C.uint(len(cdomain)), cdp, range_.c))
+	})
+	runtime.KeepAlive(domain)
+	runtime.KeepAlive(range_)
+	return funcdecl
+}
+
+func (f FuncDecl) DefineRec(args []Value, body AST) {
+	ast := make([]C.Z3_ast, len(args))
+	for i, arg := range args {
+		ast[i] = arg.AsAST().c
+	}
+
+	f.ctx.do(func() {
+		C.Z3_add_rec_def(f.ctx.c, f.c, C.uint(len(args)), &ast[0], body.c)
+	})
+	runtime.KeepAlive(args)
+	runtime.KeepAlive(body)
+}
+
 // FreshFuncDecl creates a fresh uninterpreted function distinct from
 // all other functions.
 func (ctx *Context) FreshFuncDecl(prefix string, domain []Sort, range_ Sort) FuncDecl {
