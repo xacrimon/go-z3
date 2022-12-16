@@ -12,11 +12,11 @@ import "runtime"
 
 type Sequence value
 
-//func init() {
-//	kindWrappers[KindArray] = func(x value) Value {
-//		return Array(x)
-//	}
-//}
+func init() {
+	kindWrappers[KindSequence] = func(x value) Value {
+		return Sequence(x)
+	}
+}
 
 func (ctx *Context) SequenceSort(element Sort) Sort {
 	var sort Sort
