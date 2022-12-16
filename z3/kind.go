@@ -22,6 +22,7 @@ const (
 	KindBool          = Kind(C.Z3_BOOL_SORT)
 	KindInt           = Kind(C.Z3_INT_SORT)
 	KindString        = Kind(11)
+	KindSequence      = Kind(C.Z3_SEQ_SORT)
 	KindReal          = Kind(C.Z3_REAL_SORT)
 	KindBV            = Kind(C.Z3_BV_SORT)
 	KindArray         = Kind(C.Z3_ARRAY_SORT)
