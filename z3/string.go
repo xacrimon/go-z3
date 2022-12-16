@@ -103,3 +103,14 @@ func (ctx *Context) StringFromCode(c Int) String {
 	runtime.KeepAlive(c)
 	return String(val)
 }
+
+func (l String) IndexOf(sub String, offset Int) Int {
+	ctx := l.ctx
+	val := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_index(ctx.c, l.c, sub.c, offset.c)
+	})
+	runtime.KeepAlive(l)
+	runtime.KeepAlive(sub)
+	runtime.KeepAlive(offset)
+	return Int(val)
+}
