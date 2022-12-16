@@ -27,6 +27,16 @@ func (ctx *Context) SequenceSort(element Sort) Sort {
 	return sort
 }
 
+func (ctx *Context) SequenceEmpty() Sequence {
+	var seq value
+	ctx.do(func() {
+		seq = wrapValue(ctx, func() C.Z3_ast {
+			return C.Z3_mk_seq_empty(ctx.c)
+		})
+	})
+	return Sequence(seq)
+}
+
 func (ctx *Context) SequenceUnit(item Value) Sequence {
 	var seq value
 	ctx.do(func() {
