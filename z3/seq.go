@@ -27,13 +27,14 @@ func (ctx *Context) SequenceSort(element Sort) Sort {
 	return sort
 }
 
-func (ctx *Context) SequenceEmpty() Sequence {
+func (ctx *Context) SequenceEmpty(sort Sort) Sequence {
 	var seq value
 	ctx.do(func() {
 		seq = wrapValue(ctx, func() C.Z3_ast {
-			return C.Z3_mk_seq_empty(ctx.c)
+			return C.Z3_mk_seq_empty(ctx.c, sort.c)
 		})
 	})
+	runtime.KeepAlive(sort)
 	return Sequence(seq)
 }
 
