@@ -43,8 +43,9 @@ func (ctx *Context) SequenceUnit(item Value) Sequence {
 
 func (s Sequence) Contains(item Value) Bool {
 	ctx := s.ctx
+	sub := ctx.SequenceUnit(item)
 	val := wrapValue(ctx, func() C.Z3_ast {
-		return C.Z3_mk_seq_contains(ctx.c, s.c, item.impl().c)
+		return C.Z3_mk_seq_contains(ctx.c, s.c, sub.impl().c)
 	})
 	runtime.KeepAlive(s)
 	runtime.KeepAlive(item)
