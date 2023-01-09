@@ -64,3 +64,11 @@ func (s Sequence) Concat(others ...Sequence) Sequence {
 	runtime.KeepAlive(others)
 	return Sequence(val)
 }
+
+func (s Sequence) Length() Int {
+	val := wrapValue(s.ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_length(s.ctx.c, s.c)
+	})
+	runtime.KeepAlive(s)
+	return Int(val)
+}
