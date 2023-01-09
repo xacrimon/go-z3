@@ -19,31 +19,23 @@ func init() {
 }
 
 func (ctx *Context) SequenceSort(element Sort) Sort {
-	var sort Sort
-	ctx.do(func() {
-		sort = wrapSort(ctx, C.Z3_mk_seq_sort(ctx.c, element.c), KindSequence)
-	})
+	sort := wrapSort(ctx, C.Z3_mk_seq_sort(ctx.c, element.c), KindSequence)
 	runtime.KeepAlive(element)
 	return sort
 }
 
 func (ctx *Context) SequenceEmpty(sort Sort) Sequence {
-	var seq value
-	ctx.do(func() {
-		seq = wrapValue(ctx, func() C.Z3_ast {
-			return C.Z3_mk_seq_empty(ctx.c, sort.c)
-		})
+	seq := wrapValue(ctx, func() C.Z3_ast {
+		qq := C.Z3_mk_seq_empty(ctx.c, sort.c)
+		return qq
 	})
 	runtime.KeepAlive(sort)
 	return Sequence(seq)
 }
 
 func (ctx *Context) SequenceUnit(item Value) Sequence {
-	var seq value
-	ctx.do(func() {
-		seq = wrapValue(ctx, func() C.Z3_ast {
-			return C.Z3_mk_seq_unit(ctx.c, item.impl().c)
-		})
+	seq := wrapValue(ctx, func() C.Z3_ast {
+		return C.Z3_mk_seq_unit(ctx.c, item.impl().c)
 	})
 	runtime.KeepAlive(item)
 	return Sequence(seq)
